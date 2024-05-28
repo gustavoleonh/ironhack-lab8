@@ -1,6 +1,12 @@
 # ironhack-lab8
 
-### 
+### Introduction to the Scenario:
+Participants are tasked with designing an API for an e-commerce system. The system’s requirements include managing user accounts, processing orders, and handling customer interactions efficiently.
+
+### Tools and Resources:
+Participants will use SwaggerHub, an integrated API design and documentation platform, to create their API specifications. They will be provided with access to SwaggerHub and any necessary guides on its usage.
+
+#### API Desing
 
 ``` yml
 openapi: 3.0.1
@@ -362,3 +368,22 @@ components:
           format: float
           description: Price of the product
 ```
+
+#### Rational for desing:
+
+##### RESTful Design:
+Resource-Based: The API design revolves around resources (users, orders, and interactions) and uses standard HTTP methods to perform CRUD operations.
+Statelessness: Each API request from a client contains all the necessary information for the server to fulfill that request, ensuring stateless interactions.
+
+#####  Adherence to OpenAPI 3.0:
+Using OpenAPI 3.0 ensures a standardized format for defining the API, which enhances readability, maintainability, and compatibility with tools for API documentation, testing, and client generation.
+
+##### Separation of Concerns:
+User Management: Endpoints for creating, updating, retrieving, and deleting user accounts.
+Order Management: Endpoints for creating, updating, retrieving, and canceling orders.
+Customer Interactions: Specific endpoints for user login and order placement to handle interactions that trigger complex workflows.
+
+##### Clear and Comprehensive Documentation:
+Each endpoint is documented with summaries, descriptions, parameters, request bodies, response codes, and corresponding schemas to ensure clarity.
+Detailed error codes and descriptions help developers understand and handle different scenarios effectively.
+
