@@ -1,10 +1,11 @@
 # ironhack-lab8
-Github repository for Iron hack lab 8
+
+### 
 
 ``` yml
 openapi: 3.0.1
 info:
-  title: E-commerce API for IronHack Lab
+  title: E-commerce API for ironhack lab 8
   description: API for managing user accounts, processing orders, and handling customer interactions.
   version: 1.0.0
 servers:
@@ -20,6 +21,7 @@ paths:
   /users:
     get:
       summary: Get list of users
+      description: Retrieve a list of all registered users.
       responses:
         '200':
           description: A list of users
@@ -29,8 +31,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
+        '500':
+          description: Internal server error
     post:
       summary: Create a new user
+      description: Register a new user.
       requestBody:
         required: true
         content:
@@ -44,10 +49,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
 
   /users/{userId}:
     get:
       summary: Get a user by ID
+      description: Retrieve details of a specific user by their ID.
       parameters:
         - name: userId
           in: path
@@ -61,8 +71,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
     put:
       summary: Update a user by ID
+      description: Update the details of a specific user.
       parameters:
         - name: userId
           in: path
@@ -82,8 +97,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid input
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
     delete:
       summary: Delete a user by ID
+      description: Remove a user from the system by their ID.
       parameters:
         - name: userId
           in: path
@@ -93,10 +115,15 @@ paths:
       responses:
         '204':
           description: User deleted successfully
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
 
   /login:
     post:
       summary: User login
+      description: Authenticate a user and return a token.
       requestBody:
         required: true
         content:
@@ -112,10 +139,13 @@ paths:
                 $ref: '#/components/schemas/LoginResponse'
         '401':
           description: Invalid credentials
+        '500':
+          description: Internal server error
 
   /orders:
     get:
       summary: Get list of orders
+      description: Retrieve a list of all orders.
       responses:
         '200':
           description: A list of orders
@@ -125,8 +155,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Order'
+        '500':
+          description: Internal server error
     post:
       summary: Create a new order
+      description: Place a new order.
       requestBody:
         required: true
         content:
@@ -140,10 +173,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal server error
 
   /orders/{orderId}:
     get:
       summary: Get an order by ID
+      description: Retrieve details of a specific order by its ID.
       parameters:
         - name: orderId
           in: path
@@ -157,8 +195,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
+        '404':
+          description: Order not found
+        '500':
+          description: Internal server error
     put:
       summary: Update an order by ID
+      description: Update the details of a specific order.
       parameters:
         - name: orderId
           in: path
@@ -178,8 +221,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
+        '400':
+          description: Invalid input
+        '404':
+          description: Order not found
+        '500':
+          description: Internal server error
     delete:
       summary: Cancel an order by ID
+      description: Cancel a specific order by its ID.
       parameters:
         - name: orderId
           in: path
@@ -189,6 +239,10 @@ paths:
       responses:
         '204':
           description: Order cancelled successfully
+        '404':
+          description: Order not found
+        '500':
+          description: Internal server error
 
 components:
   schemas:
@@ -197,71 +251,92 @@ components:
       properties:
         id:
           type: string
+          description: Unique identifier for the user
         username:
           type: string
+          description: Username for the user
         email:
           type: string
+          description: Email address of the user
         createdAt:
           type: string
           format: date-time
+          description: Date and time when the user was created
     NewUser:
       type: object
       properties:
         username:
           type: string
+          description: Username for the new user
         email:
           type: string
+          description: Email address of the new user
         password:
           type: string
+          description: Password for the new user
     UpdateUser:
       type: object
       properties:
         email:
           type: string
+          description: Updated email address of the user
         password:
           type: string
+          description: Updated password for the user
     LoginRequest:
       type: object
       properties:
         username:
           type: string
+          description: Username for login
         password:
           type: string
+          description: Password for login
     LoginResponse:
       type: object
       properties:
         token:
           type: string
+          description: Authentication token
         user:
           $ref: '#/components/schemas/User'
+          description: Authenticated user details
     Order:
       type: object
       properties:
         id:
           type: string
+          description: Unique identifier for the order
         userId:
           type: string
+          description: Identifier of the user who placed the order
         items:
           type: array
           items:
             $ref: '#/components/schemas/OrderItem'
+          description: List of items in the order
         totalAmount:
           type: number
           format: float
+          description: Total amount for the order
         status:
           type: string
+          description: Current status of the order
         createdAt:
           type: string
           format: date-time
+          description: Date and time when the order was created
     NewOrder:
       type: object
       properties:
         userId:
           type: string
+          description: Identifier of the user placing the order
         items:
           type: array
           items:
             $ref: '#/components/schemas/OrderItem'
+          description: List of items to be ordered
     UpdateOrder:
       type: object
       properties:
@@ -269,16 +344,21 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OrderItem'
+          description: Updated list of items in the order
         status:
           type: string
+          description: Updated status of the order
     OrderItem:
       type: object
       properties:
         productId:
           type: string
+          description: Identifier of the product
         quantity:
           type: integer
+          description: Quantity of the product
         price:
           type: number
           format: float
+          description: Price of the product
 ```
